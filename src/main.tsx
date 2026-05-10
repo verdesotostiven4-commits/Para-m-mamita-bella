@@ -19,7 +19,7 @@ import './index.css';
 
 const images = {
   hero: 'https://blogger.googleusercontent.com/img/a/AVvXsEj-XkF3ma0Y-KltE_GDN1iYbjmy7eZz7PHuHE9fzIIk2daYZFmRYBh7_D-lwsht_fAaYWcV3s0fCl4KEy1dxljawcRzcLgz5r3Ydw3w4SNLeNXDIQxaTC_2nJxh9ryKrLd7ZapyVhWQaDQ2jdXIRFfF1LIsJlsqjhGFb0iJyHqz7kq0Flc977fdbw9s_dI',
-  together: 'https://blogger.googleusercontent.com/img/a/AVvXsEj35Yf_s2a-V3ADiHClQd5pjiyHU3HBqZlj3enxQff9-qI-NXtQVPeDjmLtD1QioOXC6kj0FwAfY7n0xIbMWHqRkGMEhRJ9cwmPtufCgDkT8w54vWvrF2S9WdbvvyaTBiySAD01l-cnqknFqejHq3pEmH5_rrGYueb-uXTWKae7vhrocl9nCpmOsguM2ZY',
+  together: 'https://blogger.googleusercontent.com/img/a/AVvXsEhgOKPinwVvDURsJZtnmzwBDqheGdBo0DJfwln1mfx4b168E5fH7SKdE-3TrB6xBe0iBWoVKpkXL4_LNVf08hZwFS-Lb92I4b61Uj6Gs59D014y96XcZgdFFkyH54_3mBOYfqz5f5a7Mfo78vLZl9j1tmt2RjysRDDi38M3RcrIiruDAJbwo69--307Zpg',
   final: 'https://blogger.googleusercontent.com/img/a/AVvXsEhenTWq9X8tkjGWUGYXkN9DdBYWwJv8c9DJ8_fwsX745qsn15bVROYXnnVTALvEJwMqGUr_d10S7s-j0dNb_3q2OxkFEiFUkwMdC9IFxAFPN7bBDF-yBc7DYW-OSGc4wbgnSryJJ2mqY4c9EU_F-gMmAnoIvydts65xgeMP0xphm9x64lglzv-_T59v060'
 };
 
@@ -571,20 +571,19 @@ function App() {
                 whileTap={{ scale: 0.96 }}
                 initial={{ opacity: 0, y: 80, scale: 0.86, rotate: -2 }}
                 animate={{
-                  opacity: 1,
-                  y: [0, -8, 0],
-                  scale: 1,
-                  rotate: 0
-                }}
-                exit={{ opacity: 0, y: -80, scale: 0.9, rotate: 3 }}
-                transition={{
-                  y: { duration: 2.1, repeat: Infinity, ease: 'easeInOut' },
-                  opacity: { duration: 0.45 },
-                  scale: { duration: 0.55 },
-                  rotate: { duration: 0.55 }
-                }}
+  opacity: 1,
+  y: 0,
+  scale: 1,
+  rotate: 0
+}}
+exit={{ opacity: 0, y: -80, scale: 0.9, rotate: 3 }}
+transition={{
+  duration: 0.55,
+  ease: 'easeOut'
+}}
               >
                 <div className="orbit-glow" />
+<div className="card-shine" />
                 <div className="locked-icon">
                   <Flower2 size={35} />
                 </div>
@@ -677,7 +676,7 @@ function App() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.58 }}
               >
-                Mamita Lore, eres una bendición en mi vida. Gracias por tanto amor, tanta paciencia y tanta fuerza.
+                Mamita Lore, eres una luz en mi corazón. Gracias por tanto amor, tanta paciencia y tanta fuerza.
               </motion.p>
 
               <motion.div
@@ -688,7 +687,7 @@ function App() {
               >
                 <Baby size={28} />
                 <span>
-                  Y ahora que viene una nueva bendición, tu amor seguirá siendo parte de nuestra historia.
+                  Y ahora que viene alguien en camino 🤰, tu amor seguirá siendo parte de nuestra historia.
                 </span>
               </motion.div>
 
