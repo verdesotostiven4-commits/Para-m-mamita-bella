@@ -9,7 +9,7 @@ import {
   Camera,
   RotateCcw,
   ChevronRight,
-  MailHeart,
+  Mail,
   Baby,
   HandHeart
 } from 'lucide-react';
@@ -347,7 +347,7 @@ function App() {
               transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
             >
               <div className="envelope-flap" />
-              <MailHeart size={82} className="envelope-icon" />
+              <Mail size={82} className="envelope-icon" />
               <div className="envelope-seal">
                 <Heart size={28} fill="currentColor" />
               </div>
