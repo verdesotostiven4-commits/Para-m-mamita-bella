@@ -353,7 +353,8 @@ background: linear-gradient(
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255,255,255,.65),
+    rgba(255, 215, 92, 0.32),
+    rgba(255, 174, 201, 0.28),
     transparent
   );
   transform: translateX(-100%);
