@@ -11,7 +11,8 @@ import {
   ChevronRight,
   Mail,
   Baby,
-  HandHeart
+  HandHeart,
+  MessageCircleHeart
 } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import './index.css';
@@ -48,7 +49,7 @@ const gallery = [
     text: 'Cada foto guarda una historia'
   },
   {
-    src: 'https://blogger.googleusercontent.com/img/a/AVvXsEjqnuB6Rxts_tiwsaepyZRsm2Qh-qhu-kAuVabksUAdyqwhC5ulVIcodMSN2MsrFIiwagNnLJaJmzBw5V-uxCbg3unEE93DyNNyk-g7u3AmoU6ZULZN37f8JmzhtzSqb0cDn9MQfUp6XMwOXeJlT33rzestWKnS1JvBz1ee6bKseWFWKrY6ZDui2CEcUL4',
+    src: 'https://blogger.googleusercontent.com/img/a/AVvXsEiD3UhDwxReqTiqv4lFEi4dP30LhNqnRRP9OP_ibGDmID8YUY6159GWQdLZZf6akkDeo6NhWJsTksQEURgClYwOiQKOBXGTzd2tbREpkY7PyrldpSd4NwjNnEFz19DdGOW21ys7GdSY_Fxa2XBOz8511VqtqV7wmnbrw3zExH35JBQ6Xt2mvehzZsxaFDw',
     text: 'La mejor mamá del mundo'
   },
   {
@@ -60,23 +61,23 @@ const gallery = [
 const messageCards = [
   {
     title: 'Lo que admiro de ti',
-    text: 'Admiro tu fuerza, tu paciencia y esa forma tan bonita de cuidar a quienes amas. Eres de esas personas que dan amor incluso cuando están cansadas.'
+    text: 'Admiro su fuerza, su paciencia y esa forma tan bonita de cuidar a quienes ama. Eres de esas personas que dan amor incluso cuando están cansadas.'
   },
   {
     title: 'Gracias por…',
-    text: 'Gracias por ser mi hogar, mi fuerza y mi mayor bendición. Gracias por tus consejos, tus sacrificios y por nunca dejar de estar para mí.'
+    text: 'Gracias por ser mi hogar, mi fuerza y mi mayor inspiración. Gracias por sus consejos, sus sacrificios y por nunca dejar de estar para mí 🥺.'
   },
   {
     title: 'Aunque estemos lejos',
-    text: 'Aunque la distancia y los estudios nos tengan lejos, siempre estás presente en mi corazón. Moni también te quiere mucho y agradece todo el cariño que nos das.'
+    text: 'Aunque la distancia y los estudios nos tengan lejos, siempre estará presente en mi corazón. Moni también la quiere mucho y agradece todo el apoyo y cariño que nos dá por más lejos que estemos.'
   },
   {
     title: 'Una nueva bendición',
-    text: 'Ahora que viene una nueva bendición en camino, quiero que sepas que tu amor también será parte de esa nueva historia. Tu cariño seguirá creciendo en nuestra familia.'
+    text: 'Ahora que tenemos a un nuevo ser querido en camino, quiero que sepa que su amor también será parte de esta nueva historia. Su cariño seguirá creciendo en nuestra familia.'
   },
   {
     title: 'Mi promesa',
-    text: 'Prometo seguir esforzándome para que siempre te sientas orgullosa de mí. Todo lo que logro también lleva un pedacito de ti.'
+    text: 'Prometo seguir esforzándome para que siempre se sienta orgullosa de mí. Todo lo que logro también lleva un pedacito suyo 🤭.'
   }
 ];
 
@@ -114,26 +115,32 @@ function FloatingDecor() {
   );
 }
 
-function Burst({ active }: { active: boolean }) {
+function GiftBurst({ active }: { active: boolean }) {
   if (!active) return null;
 
   return (
-    <div className="burst-layer" aria-hidden="true">
-      {Array.from({ length: 34 }).map((_, index) => {
-        const angle = (index / 34) * Math.PI * 2;
-        const distance = 120 + (index % 6) * 18;
+    <div className="gift-burst-layer" aria-hidden="true">
+      {Array.from({ length: 44 }).map((_, index) => {
+        const angle = (index / 44) * Math.PI * 2;
+        const distance = 105 + (index % 7) * 18;
         const x = Math.cos(angle) * distance;
-        const y = Math.sin(angle) * distance;
+        const y = Math.sin(angle) * distance - 28;
 
         return (
           <motion.span
             key={index}
             className="burst-item"
-            initial={{ x: 0, y: 0, scale: 0, opacity: 1 }}
-            animate={{ x, y, scale: [0, 1.35, 0.4], opacity: [1, 1, 0] }}
-            transition={{ duration: 1.15, ease: 'easeOut' }}
+            initial={{ x: 0, y: 0, scale: 0, opacity: 1, rotate: 0 }}
+            animate={{
+              x,
+              y,
+              scale: [0, 1.45, 0.35],
+              opacity: [1, 1, 0],
+              rotate: [0, 180, 360]
+            }}
+            transition={{ duration: 1.45, ease: 'easeOut' }}
           >
-            {index % 3 === 0 ? '💗' : index % 3 === 1 ? '🌸' : '✨'}
+            {index % 4 === 0 ? '💗' : index % 4 === 1 ? '🌸' : index % 4 === 2 ? '✨' : '💕'}
           </motion.span>
         );
       })}
@@ -144,6 +151,8 @@ function Burst({ active }: { active: boolean }) {
 function App() {
   const [step, setStep] = React.useState<Step>('intro');
   const [burst, setBurst] = React.useState(false);
+  const [giftOpening, setGiftOpening] = React.useState(false);
+  const [introFlying, setIntroFlying] = React.useState(false);
   const [galleryIndex, setGalleryIndex] = React.useState(0);
   const [cardIndex, setCardIndex] = React.useState(0);
   const [cardOpen, setCardOpen] = React.useState(false);
@@ -166,16 +175,23 @@ function App() {
       navigator.vibrate([80, 40, 120, 40, 160]);
     }
 
-    setBurst(true);
+    setGiftOpening(true);
+    setIntroFlying(true);
+
+    setTimeout(() => {
+      setBurst(true);
+    }, 360);
 
     setTimeout(() => {
       setBurst(false);
       setStep('hero');
-    }, 1200);
+    }, 1700);
 
     setTimeout(() => {
       setStep('envelope');
-    }, 5200);
+      setGiftOpening(false);
+      setIntroFlying(false);
+    }, 8200);
   };
 
   const openLetter = () => {
@@ -216,6 +232,9 @@ function App() {
     setGalleryIndex(0);
     setCardIndex(0);
     setCardOpen(false);
+    setGiftOpening(false);
+    setIntroFlying(false);
+    setBurst(false);
     setStep('intro');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -224,7 +243,6 @@ function App() {
     <main className="gift-app">
       <audio ref={audioRef} src="/music/mama.mp3" loop preload="auto" />
       <FloatingDecor />
-      <Burst active={burst} />
 
       <AnimatePresence mode="wait">
         {step === 'intro' && (
@@ -239,24 +257,57 @@ function App() {
             <motion.div
               className="gift-box"
               animate={{
-                y: [0, -12, 0],
-                rotate: [0, -2, 2, 0],
-                scale: [1, 1.03, 1]
+                y: giftOpening ? [0, -8, 3, -4, 0] : [0, -12, 0],
+                rotate: giftOpening ? [0, -3, 3, -2, 0] : [0, -2, 2, 0],
+                scale: giftOpening ? [1, 1.05, 1.09, 1.02] : [1, 1.03, 1]
               }}
-              transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+              transition={{
+                duration: giftOpening ? 0.9 : 2.2,
+                repeat: giftOpening ? 0 : Infinity,
+                ease: 'easeInOut'
+              }}
             >
-              <div className="gift-lid" />
-              <div className="gift-body">
+              <motion.div
+                className="gift-lid"
+                animate={
+                  giftOpening
+                    ? {
+                        y: [-2, -48, -76],
+                        x: [0, 14, 36],
+                        rotate: [0, 16, 28],
+                        opacity: [1, 1, 0.92]
+                      }
+                    : {}
+                }
+                transition={{ duration: 0.85, ease: 'easeOut' }}
+              />
+              <motion.div
+                className="gift-body"
+                animate={
+                  giftOpening
+                    ? {
+                        scale: [1, 1.04, 0.98, 1.02],
+                        filter: ['brightness(1)', 'brightness(1.18)', 'brightness(1.05)']
+                      }
+                    : {}
+                }
+                transition={{ duration: 0.9, ease: 'easeOut' }}
+              >
                 <Gift size={82} />
-              </div>
+              </motion.div>
               <div className="gift-glow" />
+              <GiftBurst active={burst} />
             </motion.div>
 
             <motion.p
               className="intro-kicker"
               initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.25 }}
+              animate={
+                introFlying
+                  ? { opacity: [1, 1, 0], y: [0, -38, -110], x: [0, -18, -80], rotate: [0, -8, -18] }
+                  : { opacity: 1, y: 0 }
+              }
+              transition={{ delay: introFlying ? 0 : 0.25, duration: introFlying ? 0.85 : 0.5 }}
             >
               Un regalo hecho con amor
             </motion.p>
@@ -264,8 +315,12 @@ function App() {
             <motion.h1
               className="intro-title"
               initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.38 }}
+              animate={
+                introFlying
+                  ? { opacity: [1, 1, 0], y: [0, -42, -130], x: [0, 12, 76], scale: [1, 1.06, 0.85] }
+                  : { opacity: 1, y: 0 }
+              }
+              transition={{ delay: introFlying ? 0.05 : 0.38, duration: introFlying ? 0.95 : 0.5 }}
             >
               Para Mamita Lore
             </motion.h1>
@@ -273,18 +328,37 @@ function App() {
             <motion.p
               className="intro-subtitle"
               initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
+              animate={
+                introFlying
+                  ? { opacity: [1, 1, 0], y: [0, -30, -95], x: [0, 20, 95], rotate: [0, 5, 14] }
+                  : { opacity: 1, y: 0 }
+              }
+              transition={{ delay: introFlying ? 0.1 : 0.5, duration: introFlying ? 0.9 : 0.5 }}
             >
               Toca el regalo y deja que empiece la sorpresa.
             </motion.p>
 
             <motion.button
-              className="main-cta pulse-cta"
+              className="main-cta pulse-cta magic-button"
               onClick={startGift}
               whileTap={{ scale: 0.94 }}
-              animate={{ boxShadow: ['0 18px 45px rgba(236, 72, 153, .28)', '0 22px 70px rgba(236, 72, 153, .48)', '0 18px 45px rgba(236, 72, 153, .28)'] }}
-              transition={{ duration: 1.4, repeat: Infinity }}
+              animate={
+                introFlying
+                  ? { opacity: [1, 1, 0], y: [0, 38, 130], scale: [1, 1.08, 0.8] }
+                  : {
+                      y: [0, -5, 0],
+                      boxShadow: [
+                        '0 18px 45px rgba(236, 72, 153, .28)',
+                        '0 22px 70px rgba(236, 72, 153, .48)',
+                        '0 18px 45px rgba(236, 72, 153, .28)'
+                      ]
+                    }
+              }
+              transition={{
+                duration: introFlying ? 0.85 : 1.4,
+                repeat: introFlying ? 0 : Infinity,
+                ease: 'easeInOut'
+              }}
             >
               <Sparkles size={23} />
               Abrir regalo para Lore
@@ -296,15 +370,15 @@ function App() {
           <motion.section
             key="hero"
             className="screen hero-screen"
-            initial={{ opacity: 0, scale: 1.05 }}
+            initial={{ opacity: 0, scale: 1.08 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, y: -50 }}
             transition={{ duration: 0.8 }}
           >
             <motion.div
               className="hero-card"
-              initial={{ y: 40, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
+              initial={{ y: 40, opacity: 0, scale: 0.96 }}
+              animate={{ y: 0, opacity: 1, scale: 1 }}
               transition={{ duration: 0.8 }}
             >
               <img src={images.hero} alt="Mamita Lore" className="hero-img" />
@@ -356,7 +430,7 @@ function App() {
             <h2 className="section-title centered">Hay una carta para ti</h2>
             <p className="soft-text centered">Toca la carta, Mamita Lore.</p>
 
-            <button className="secondary-cta" onClick={openLetter}>
+            <button className="secondary-cta magic-button" onClick={openLetter}>
               Abrir la carta
               <ChevronRight size={21} />
             </button>
@@ -366,13 +440,13 @@ function App() {
         {step === 'letter' && (
           <motion.section
             key="letter"
-            className="screen letter-screen"
+            className="screen letter-screen compact-letter-screen"
             initial={{ opacity: 0, rotateX: 8, y: 50 }}
             animate={{ opacity: 1, rotateX: 0, y: 0 }}
             exit={{ opacity: 0, y: -40 }}
             transition={{ duration: 0.75 }}
           >
-            <div className="paper-card">
+            <div className="paper-card compact-paper-card">
               <img src={images.together} alt="Stiven y Mamita Lore" className="letter-photo" />
 
               <div className="label-row">
@@ -382,21 +456,53 @@ function App() {
 
               <h2>Para mi mamita bella</h2>
 
-              <p>
-                Mamita Lore, gracias por ser mi hogar, mi fuerza y mi mayor bendición. Hoy quiero recordarte que todo lo bonito que soy y todo lo que sigo intentando construir también nace de tu amor, tus consejos y tu forma de nunca rendirte.
-              </p>
+              <div className="reading-text">
+                <p>
+                  Mamita Lore, gracias por ser mi hogar, mi fuerza y mi mayor admiración. Hoy quiero recordarle que todo lo bonito que soy y todo lo que sigo intentando construir también nace de su amor, sus consejos y su forma de nunca rendirse.
+                </p>
 
-              <p>
-                Esta página la hice para que tengas un recuerdo diferente, algo que puedas abrir cuando quieras y sentir que tu hijo te abraza con el corazón.
-              </p>
+                <p>
+                  Esta página la hice para que tenga un recuerdo diferente, algo que pueda abrir cuando quiera y sentir que su hijo la abraza con el corazón.
+                </p>
+              </div>
 
-              <p className="signature">Con amor, Stiven</p>
+              <motion.p
+                className="signature special-signature"
+                initial={{ opacity: 0.65, scale: 0.96 }}
+                animate={{
+                  opacity: [0.65, 1, 0.85, 1],
+                  scale: [0.96, 1.04, 1, 1.03],
+                  textShadow: [
+                    '0 0 0 rgba(236, 72, 153, 0)',
+                    '0 0 18px rgba(236, 72, 153, 0.6)',
+                    '0 0 8px rgba(236, 72, 153, 0.25)',
+                    '0 0 22px rgba(236, 72, 153, 0.55)'
+                  ]
+                }}
+                transition={{ delay: 12.5, duration: 2.4, repeat: Infinity, repeatDelay: 2 }}
+              >
+                Con amor, Stiven
+              </motion.p>
             </div>
 
-            <button className="main-cta" onClick={() => setStep('gallery')}>
+            <motion.button
+              className="main-cta magic-button"
+              onClick={() => setStep('gallery')}
+              whileTap={{ scale: 0.94 }}
+              animate={{
+                y: [0, -5, 0],
+                scale: [1, 1.02, 1],
+                boxShadow: [
+                  '0 18px 45px rgba(236, 72, 153, .28)',
+                  '0 24px 75px rgba(236, 72, 153, .48)',
+                  '0 18px 45px rgba(236, 72, 153, .28)'
+                ]
+              }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+            >
               Ver nuestros recuerdos
               <ChevronRight size={22} />
-            </button>
+            </motion.button>
           </motion.section>
         )}
 
@@ -435,7 +541,7 @@ function App() {
               ))}
             </div>
 
-            <button className="main-cta" onClick={nextGallery}>
+            <button className="main-cta magic-button" onClick={nextGallery}>
               {galleryIndex < gallery.length - 1 ? 'Siguiente recuerdo' : 'Abrir cofre de mensajes'}
               <ChevronRight size={22} />
             </button>
@@ -451,25 +557,45 @@ function App() {
             exit={{ opacity: 0, y: -55 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="section-header">
-              <span>Cofre</span>
+            <div className="section-header chest-header">
+              <span>Cofre de amor</span>
               <h2>Mensaje {cardIndex + 1} de {messageCards.length}</h2>
               <HandHeart size={32} />
             </div>
 
-            <motion.button
-              className="locked-card"
-              onClick={openCurrentCard}
-              whileTap={{ scale: 0.96 }}
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 2.1, repeat: Infinity, ease: 'easeInOut' }}
-            >
-              <div className="locked-icon">
-                <Flower2 size={35} />
-              </div>
-              <h3>{messageCards[cardIndex].title}</h3>
-              <p>Toca para abrir este mensaje</p>
-            </motion.button>
+            <AnimatePresence mode="wait">
+              <motion.button
+                key={cardIndex}
+                className="locked-card upgraded-locked-card"
+                onClick={openCurrentCard}
+                whileTap={{ scale: 0.96 }}
+                initial={{ opacity: 0, y: 80, scale: 0.86, rotate: -2 }}
+                animate={{
+                  opacity: 1,
+                  y: [0, -8, 0],
+                  scale: 1,
+                  rotate: 0
+                }}
+                exit={{ opacity: 0, y: -80, scale: 0.9, rotate: 3 }}
+                transition={{
+                  y: { duration: 2.1, repeat: Infinity, ease: 'easeInOut' },
+                  opacity: { duration: 0.45 },
+                  scale: { duration: 0.55 },
+                  rotate: { duration: 0.55 }
+                }}
+              >
+                <div className="orbit-glow" />
+                <div className="locked-icon">
+                  <Flower2 size={35} />
+                </div>
+                <div className="message-pill">
+                  <MessageCircleHeart size={18} />
+                  Toca para abrir este mensaje
+                </div>
+                <h3>{messageCards[cardIndex].title}</h3>
+                <p>Un mensajito especial está guardado aquí.</p>
+              </motion.button>
+            </AnimatePresence>
 
             <AnimatePresence>
               {cardOpen && (
@@ -480,18 +606,25 @@ function App() {
                   exit={{ opacity: 0 }}
                 >
                   <motion.div
-                    className="modal-card"
-                    initial={{ scale: 0.82, opacity: 0, y: 30 }}
-                    animate={{ scale: 1, opacity: 1, y: 0 }}
-                    exit={{ scale: 0.9, opacity: 0 }}
+                    className="modal-card upgraded-modal-card"
+                    initial={{ scale: 0.82, opacity: 0, y: 50, rotate: -2 }}
+                    animate={{ scale: 1, opacity: 1, y: 0, rotate: 0 }}
+                    exit={{ scale: 0.9, opacity: 0, y: 35 }}
+                    transition={{ duration: 0.45, ease: 'easeOut' }}
                   >
                     <Heart size={48} fill="currentColor" />
                     <h3>{messageCards[cardIndex].title}</h3>
                     <p>{messageCards[cardIndex].text}</p>
-                    <button className="main-cta" onClick={nextCard}>
+                    <motion.button
+                      className="main-cta magic-button"
+                      onClick={nextCard}
+                      whileTap={{ scale: 0.94 }}
+                      animate={{ y: [0, -4, 0], scale: [1, 1.02, 1] }}
+                      transition={{ duration: 1.35, repeat: Infinity, ease: 'easeInOut' }}
+                    >
                       {cardIndex < messageCards.length - 1 ? 'Abrir siguiente mensaje' : 'Ir al final'}
                       <ChevronRight size={22} />
-                    </button>
+                    </motion.button>
                   </motion.div>
                 </motion.div>
               )}
@@ -502,37 +635,85 @@ function App() {
         {step === 'final' && (
           <motion.section
             key="final"
-            className="screen final-screen"
-            initial={{ opacity: 0, scale: 1.04 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7 }}
+            className="screen final-screen compact-final-screen"
+            initial={{ opacity: 0, scale: 1.12, y: 60 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.85, ease: 'easeOut' }}
           >
-            <div className="final-card">
-              <img src={images.final} alt="Feliz Día de la Madre" className="final-img" />
-              <div className="final-star">
+            <motion.div
+              className="final-card divine-final-card"
+              initial={{ rotate: -2 }}
+              animate={{ rotate: 0 }}
+              transition={{ duration: 0.8, ease: 'easeOut' }}
+            >
+              <motion.img
+                src={images.final}
+                alt="Feliz Día de la Madre"
+                className="final-img"
+                initial={{ scale: 1.08, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.8 }}
+              />
+
+              <motion.div
+                className="final-star"
+                initial={{ scale: 0, rotate: -120 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ delay: 0.35, duration: 0.7, type: 'spring' }}
+              >
                 <Star size={36} fill="currentColor" />
-              </div>
+              </motion.div>
 
-              <h2>Feliz Día de la Madre</h2>
-              <p>
+              <motion.h2
+                initial={{ opacity: 0, y: 22 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.45 }}
+              >
+                Feliz Día de la Madre
+              </motion.h2>
+
+              <motion.p
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.58 }}
+              >
                 Mamita Lore, eres una bendición en mi vida. Gracias por tanto amor, tanta paciencia y tanta fuerza.
-              </p>
+              </motion.p>
 
-              <div className="baby-note">
+              <motion.div
+                className="baby-note"
+                initial={{ opacity: 0, y: 18, scale: 0.94 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ delay: 0.72 }}
+              >
                 <Baby size={28} />
                 <span>
                   Y ahora que viene una nueva bendición, tu amor seguirá siendo parte de nuestra historia.
                 </span>
-              </div>
+              </motion.div>
 
-              <h3>Te amo muchísimo.</h3>
-              <p className="signature centered">Con amor, Stiven</p>
+              <motion.h3
+                initial={{ opacity: 0, scale: 0.92 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.9 }}
+              >
+                Te amo muchísimo.
+              </motion.h3>
 
-              <button className="secondary-cta" onClick={restart}>
+              <motion.p
+                className="signature centered special-signature"
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1 }}
+              >
+                Con amor, Stiven
+              </motion.p>
+
+              <button className="secondary-cta magic-button" onClick={restart}>
                 <RotateCcw size={21} />
                 Ver otra vez
               </button>
-            </div>
+            </motion.div>
           </motion.section>
         )}
       </AnimatePresence>
