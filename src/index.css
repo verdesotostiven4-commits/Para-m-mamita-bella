@@ -346,21 +346,20 @@ background: linear-gradient(
   overflow: hidden;
 }
 
-.reading-text p::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(
+.reading-text p:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
     90deg,
     transparent,
-    rgba(255,215,92,.32),
-    rgba(255,174,201,.28),
+    rgba(255, 215, 92, 0.32),
+    rgba(255, 174, 201, 0.28),
     transparent
   );
-  transform:translateX(-100%);
-  animation:readingGlow 8s linear infinite;
+  transform: translateX(-100%);
+  animation: readingGlow 8s linear infinite;
 }
-
 @keyframes readingGlow {
   to {
     transform: translateX(100%);
